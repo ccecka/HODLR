@@ -31,7 +31,7 @@ public:
         /*!
          Allows access to the matrix elements, i.e., returns the (i,j)th element of the HODLR matrix.
          */
-	virtual std::complex<double> get_Matrix_Entry(const unsigned i, const unsigned j) {
+	virtual std::complex<double> get_Matrix_Entry(const unsigned, const unsigned) {
 		return std::complex<double> (0.0,0.0);
 	};
 
