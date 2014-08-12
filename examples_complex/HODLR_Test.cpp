@@ -131,6 +131,31 @@ class Test_Kernel : public HODLR_Matrix {
 	};
 };
 
+/** Input an Eigen matrix from filename in binary format */
+template<typename MatrixType>
+void save(const char* filename, const MatrixType& m) {
+  ofstream f(filename, ios::binary);
+  f.write((char *)&m.rows(), sizeof(m.rows()));
+  f.write((char *)&m.cols(), sizeof(m.cols()));
+  f.write((char *)&m.data(), sizeof(typename MatrixType::Scalar)*m.cols()*m.cols());
+  f.close();
+}
+
+/** Output an Eigen matrix to filename in binary format */
+template<typename MatrixType>
+void load(const char* filename, MatrixType& m) {
+  typename MatrixType::Index rows, cols;
+  ifstream f(filename, ios::binary);
+  f.read((char *)&rows, sizeof(rows));
+  f.read((char *)&cols, sizeof(cols));
+  m.resize(rows, cols);
+  f.read((char *)&m.data(), sizeof(typename MatrixType::Scalar)*rows*cols);
+  if (f.bad())
+    throw std::exception("Error reading matrix");
+  f.close();
+}
+
+
 
 int main() {
 	srand (time(NULL));
